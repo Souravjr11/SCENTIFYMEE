@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmed | Scentifymee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #0d0b0a;
+        --panel: #151310;
+        --text: #eee9df;
+        --muted: #8a847b;
+        --gold: #c9a45c;
+        --border: rgba(201, 164, 92, 0.2);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", sans-serif;
+      }
+      .card {
+        width: min(620px, calc(100% - 32px));
+        background: var(--panel);
+        border: 1px solid var(--border);
+        padding: 36px 28px;
+        text-align: center;
+      }
+      .icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 16px;
+        background: rgba(201, 164, 92, 0.12);
+        color: var(--gold);
+        font-size: 2rem;
+        font-weight: 700;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2.2rem, 4vw, 3rem);
+      }
+      p { color: var(--muted); margin: 0 0 12px; }
+      .order-id {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 26px;
+        margin-top: 18px;
+        background: var(--gold);
+        color: #10100f;
+        font-weight: 700;
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="icon">✓</div>
+      <h1>Order Confirmed</h1>
+      <p>Your fragrance order has been placed successfully.</p>
+      <p>Order ID: <span class="order-id" id="orderId">SCM-00000000</span></p>
+      <p id="paymentMsg" style="display: none; font-size: 0.88rem; color: #79d39b; margin-top: 6px;">
+        Payment Reference: <strong id="paymentRef" style="color: var(--text);"></strong> (<span id="paymentMethodName">Online Payment</span>)
+      </p>
+      <p id="accountMsg" style="display: none; font-size: 0.88rem; color: var(--gold-light); margin-top: 10px;">
+        Associated with your account: <strong id="accountEmail" style="color: var(--text);"></strong>
+      </p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 22px;">
+        <a class="btn" href="orders.html" id="viewOrdersBtn" style="background: var(--gold); color: #10100f;">View Your Orders</a>
+        <a class="btn" href="all_products.html" style="background: transparent; color: var(--text); border: 1px solid var(--border);">Continue Shopping</a>
+        <a class="btn" href="account.html" id="viewAccountBtn" style="background: transparent; color: var(--muted); border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.8rem;">Account</a>
+      </div>
+    </div>
+
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get('order') || 'SCM-00000000';
+      const paymentId = params.get('payment');
+      const method = params.get('method');
+
+      document.getElementById('orderId').textContent = orderId;
+
+      if (paymentId) {
+        document.getElementById('paymentMsg').style.display = 'block';
+        document.getElementById('paymentRef').textContent = paymentId;
+        document.getElementById('paymentMethodName').textContent = method === 'upi' ? 'Direct UPI' : 'Razorpay Secure';
+      }
+
+      try {
+        const user = JSON.parse(localStorage.getItem('scentifymeeUser'));
+        if (user && user.email) {
+          document.getElementById('accountMsg').style.display = 'block';
+          document.getElementById('accountEmail').textContent = user.email;
+        }
+      } catch (e) {}
+    </script>
+  </body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Partials | Scentifymee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <link href="css/style.css" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #0d0b0a;
+        --panel: #171412;
+        --card: #1d1a17;
+        --text: #f2efe9;
+        --muted: #a7a196;
+        --gold: #c9a45c;
+        --gold-deep: #d8bb7a;
+        --border: rgba(201, 164, 92, 0.25);
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+      }
+
+      .wrap {
+        min-height: 100vh;
+        padding: 40px 20px 60px;
+      }
+
+      .wrap .container {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      h1 {
+        font-family: 'Cormorant Garamond', serif;
+        margin: 0 0 10px;
+        font-size: clamp(2.6rem, 5vw, 4rem);
+        letter-spacing: -0.04em;
+      }
+
+      .subtitle {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .product-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        overflow: hidden;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .product-card:hover {
+        transform: translateY(-2px);
+        border-color: rgba(201, 164, 92, 0.5);
+      }
+
+      .product-card img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        display: block;
+        background: #1a1715;
+      }
+
+      .info {
+        padding: 18px 16px 20px;
+      }
+
+      .brand {
+        color: var(--gold-deep);
+        font-size: 0.7rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      .name {
+        margin: 0 0 10px;
+        font-size: 1.15rem;
+        font-weight: 600;
+      }
+
+      .notes {
+        margin: 0 0 14px;
+        color: var(--muted);
+        font-size: 0.85rem;
+        line-height: 1.7;
+      }
+
+      .meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .price {
+        color: var(--text);
+        font-weight: 700;
+      }
+
+      .cta {
+        display: inline-block;
+        padding: 9px 12px;
+        background: var(--gold);
+        color: #11100d;
+        text-decoration: none;
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      @media (max-width: 900px) {
+        .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+
+      @media (max-width: 560px) {
+        .grid { grid-template-columns: 1fr; }
+      }
+    </style>
+    <link href="css/navbar.css" rel="stylesheet" />
+  </head>
+  <body>
+  <!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="index.html" class="logo" aria-label="Scentifymee home">SCENTIFY<span class="logo-accent">MEE</span></a>
+
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+      <a href="index.html" data-route="home">Home</a>
+      <a href="bestsellers.html" data-route="bestsellers">Best Sellers</a>
+      <a href="new_additions.html" data-route="newAdditions">New Additions</a>
+      <a href="all_products.html" data-route="shopAll">Shop All</a>
+      <a href="partials.html" data-route="partials" class="active">Partials</a>
+      <a href="about.html" data-route="about">About</a>
+    </nav>
+
+    <div class="header-icons">
+      <button class="icon-btn" id="searchToggle" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <a href="cart.html" class="icon-btn" aria-label="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+          <path d="M3 5h2l2.4 10.1a1 1 0 0 0 1 .9h8.8a1 1 0 0 0 1-.8L20 7H7"></path>
+          <circle cx="10" cy="18" r="1.3"></circle>
+          <circle cx="17" cy="18" r="1.3"></circle>
+        </svg>
+        <span data-cart-count hidden>0</span>
+      </a>
+      <a href="account.html" class="icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <circle cx="12" cy="8" r="3.2"></circle>
+          <path d="M4.5 20c1.4-3.6 4.4-5.5 7.5-5.5s6.1 1.9 7.5 5.5"></path>
+        </svg>
+      </a>
+      <button class="icon-btn hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Search overlay -->
+  <div class="search-panel" id="searchPanel">
+    <div class="container search-panel-inner">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="search-panel-icon"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Search by name, brand or notes…" autocomplete="off">
+      <button id="searchClose" aria-label="Close search">&times;</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</header>
+
+<!-- ============ MOBILE NAV PANEL ============ -->
+<div class="mobile-nav-overlay" id="mobileNavOverlay">
+  <div class="mobile-nav-panel">
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">&times;</button>
+    <a href="index.html">Home</a>
+    <a href="bestsellers.html">Best Sellers</a>
+    <a href="new_additions.html">New Additions</a>
+    <a href="all_products.html">Shop All</a>
+    <a href="partials.html" class="active">Partials</a>
+    <a href="about.html">About</a>
+    <a href="orders.html">My Orders</a>
+    <a href="account.html">My Account</a>
+    <a href="cart.html">Cart</a>
+  </div>
+</div>
+<div class="wrap">
+      <div class="container">
+        <div class="header">
+          <h1>Partials</h1>
+          <p class="subtitle">Curated fragrance decants</p>
+        </div>
+
+        <div class="grid">
+          <article class="product-card">
+            <img src="images/products/01-1.jpg" alt="Afnan 9PM Night Out" />
+            <div class="info">
+              <div class="brand">AFNAN</div>
+              <h2 class="name">Afnan 9PM Night Out</h2>
+              <p class="notes">Dragon Fruit • Bergamot • Cognac</p>
+              <div class="meta">
+                <span class="price">₹199</span>
+                <a class="cta" href="product.html?id=afnan-9pm-night-out">View</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <img src="images/products/14-1.jpg" alt="Rasasi Hawas for Him" />
+            <div class="info">
+              <div class="brand">RASASI</div>
+              <h2 class="name">Rasasi Hawas for Him</h2>
+              <p class="notes">Apple • Bergamot • Aquatic Notes</p>
+              <div class="meta">
+                <span class="price">₹199</span>
+                <a class="cta" href="product.html?id=rasasi-hawas-for-him">View</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <img src="images/products/23-1.jpg" alt="Armaf Club De Nuit Intense Man" />
+            <div class="info">
+              <div class="brand">ARMAF</div>
+              <h2 class="name">Armaf Club De Nuit</h2>
+              <p class="notes">Lemon • Pineapple • Woody depth</p>
+              <div class="meta">
+                <span class="price">₹199</span>
+                <a class="cta" href="product.html?id=armaf-club-de-nuit-intense-man">View</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <img src="images/products/12-1.jpg" alt="French Avenue Liquid Brun" />
+            <div class="info">
+              <div class="brand">FRENCH AVENUE</div>
+              <h2 class="name">French Avenue Liquid Brun</h2>
+              <p class="notes">Cinnamon • Cardamom • Orange</p>
+              <div class="meta">
+                <span class="price">₹179</span>
+                <a class="cta" href="product.html?id=french-avenue-liquid-brun">View</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer" id="about">
+  <div class="container footer-top">
+    <div class="footer-col">
+      <div class="logo footer-logo">SCENTIFY<span class="logo-accent">MEE</span></div>
+      <p class="footer-desc">Experience luxury fragrances through premium decants. Discover your signature scent without the commitment.</p>
+    </div>
+    <div class="footer-col">
+      <h3>Quick Links</h3>
+      <a href="all_products.html">Shop All</a>
+      <a href="orders.html">My Orders</a>
+      <a href="about.html">About Us</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <h3>Contact</h3>
+      <p class="footer-contact">Email: scentifymee.in@gmail.com</p>
+      <p class="footer-contact">Phone: +91-9795545614</p>
+      <p class="footer-contact">Support hours: Mon–Sat, 10 AM – 7 PM IST</p>
+      <div class="social-icons">
+        <a href="https://instagram.com/scentifymee" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+        </a>
+        <a href="https://twitter.com/scentifymee" target="_blank" rel="noopener" aria-label="Twitter">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 5.9c-.7.3-1.5.5-2.3.6.8-.5 1.5-1.3 1.8-2.3-.8.5-1.7.8-2.6 1a4.1 4.1 0 0 0-7 3.7A11.6 11.6 0 0 1 3.4 4.6a4.1 4.1 0 0 0 1.3 5.5c-.6 0-1.3-.2-1.8-.5v.1c0 2 1.4 3.6 3.3 4a4.1 4.1 0 0 1-1.8.1c.5 1.6 2 2.8 3.8 2.8A8.3 8.3 0 0 1 2 18.4a11.6 11.6 0 0 0 6.3 1.9c7.5 0 11.7-6.3 11.7-11.7v-.5c.8-.6 1.5-1.3 2-2.1z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-divider"></div>
+
+  <div class="container footer-bottom">
+    <p class="copyright">© 2026 Scentifymee. All rights reserved.</p>
+    <div class="footer-legal">
+      <a href="privacy-policy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="shipping-policy.html">Shipping Policy</a>
+      <a href="refund-policy.html">Refund Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ FLOATING BUTTON ============ -->
+<button class="floating-btn" aria-label="Scroll to top" id="floatingBtn">
+  <svg viewBox="0 0 24 24" fill="#0d0b0a"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+</button>
+<script src="js/script.js"></script>
+  </body>
+</html>

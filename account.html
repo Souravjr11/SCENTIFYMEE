@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account | Scentifymee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #0d0b0a;
+        --panel: rgba(23, 20, 17, 0.94);
+        --text: #f4efe9;
+        --muted: #a9a196;
+        --gold: #c9a45c;
+        --gold-light: #dfc57f;
+        --border: rgba(201, 164, 92, 0.22);
+        --input-bg: rgba(255, 255, 255, 0.02);
+        --error: #ff8d8d;
+        --success: #87d7a0;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(circle at top, rgba(201, 164, 92, 0.12), transparent 36%), var(--bg);
+        color: var(--text);
+        font-family: "Inter", sans-serif;
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      .wrap {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 32px 20px;
+      }
+
+      .card {
+        width: min(520px, 100%);
+        background: var(--panel);
+        border: 1px solid var(--border);
+        padding: 34px 30px 28px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      }
+
+      .brand {
+        margin-bottom: 12px;
+        text-align: center;
+        color: var(--text);
+        font-size: 1.15rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .brand .accent { color: var(--gold); }
+
+      .back-home {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        color: var(--gold-light);
+        font-size: 0.75rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      .back-home:hover,
+      .back-home:focus-visible {
+        color: var(--text);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(2.4rem, 5vw, 3.4rem);
+        text-align: center;
+        line-height: 0.95;
+        font-weight: 600;
+      }
+
+      .subtitle {
+        margin: 0 0 24px;
+        color: var(--muted);
+        text-align: center;
+        font-size: 0.92rem;
+      }
+
+      .google-btn {
+        width: 100%;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        background: #ffffff;
+        color: #1f1f1f;
+        border: 1px solid #dadce0;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .google-btn:hover {
+        background: #f8f9fa;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .google-btn svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 20px 0;
+        color: var(--muted);
+        font-size: 0.76rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .divider::before,
+      .divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .toggle-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        border: 1px solid var(--border);
+        background: rgba(255,255,255,0.02);
+        margin-bottom: 22px;
+      }
+
+      .mode-btn {
+        min-height: 44px;
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        font-size: 0.8rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .mode-btn.active {
+        background: rgba(201, 164, 92, 0.12);
+        color: var(--text);
+        border-bottom: 2px solid var(--gold);
+      }
+
+      .panel {
+        display: none;
+      }
+
+      .panel.active {
+        display: block;
+      }
+
+      form {
+        display: grid;
+        gap: 16px;
+      }
+
+      .field {
+        display: grid;
+        gap: 8px;
+      }
+
+      label {
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      input {
+        width: 100%;
+        min-height: 48px;
+        padding: 0 14px;
+        background: var(--input-bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 1rem;
+        outline: none;
+      }
+
+      input:focus {
+        border-color: var(--gold);
+        box-shadow: inset 0 0 0 1px rgba(201, 164, 92, 0.2);
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      .remember {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .remember input {
+        width: 14px;
+        height: 14px;
+        min-height: auto;
+        accent-color: var(--gold);
+      }
+
+      .forgot, .meta a {
+        color: var(--gold-light);
+      }
+
+      .primary-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 50px;
+        margin-top: 6px;
+        border: 1px solid var(--gold);
+        background: linear-gradient(180deg, #d5b164 0%, #c49f57 100%);
+        color: #140f0c;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: transform 0.2s ease, filter 0.2s ease;
+      }
+
+      .primary-btn:hover,
+      .primary-btn:focus-visible {
+        transform: translateY(-1px);
+        filter: brightness(1.04);
+      }
+
+      .error, .success {
+        min-height: 18px;
+        font-size: 0.8rem;
+        line-height: 1.4;
+      }
+
+      .error { color: var(--error); }
+      .success { color: var(--success); }
+
+      .meta {
+        margin-top: 18px;
+        text-align: center;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      /* Profile Panel */
+      .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 20px;
+      }
+
+      .profile-avatar {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold), #705421);
+        color: #111;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.4rem;
+        overflow: hidden;
+        border: 1px solid var(--gold-light);
+      }
+
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .profile-details h3 {
+        margin: 0 0 4px;
+        font-size: 1.25rem;
+        color: var(--text);
+      }
+
+      .profile-details p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .profile-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+
+      .secondary-profile-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text);
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .secondary-profile-btn:hover {
+        border-color: var(--gold);
+        color: var(--gold);
+      }
+
+      .signout-btn {
+        background: transparent;
+        border: 1px solid rgba(255, 141, 141, 0.3);
+        color: var(--error);
+        min-height: 42px;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .signout-btn:hover {
+        background: rgba(255, 141, 141, 0.1);
+      }
+
+      .orders-section h4 {
+        margin: 0 0 12px;
+        font-size: 0.82rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold-light);
+      }
+
+      .order-item-card {
+        padding: 12px 14px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.85rem;
+      }
+
+      .order-item-card strong {
+        color: var(--gold);
+      }
+
+      .no-orders-msg {
+        color: var(--muted);
+        font-size: 0.86rem;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <div class="brand">SCENTIFY<span class="accent">MEE</span></div>
+        <a class="back-home" href="index.html">← Back to home</a>
+
+        <!-- AUTHENTICATED VIEW -->
+        <div class="panel" id="profilePanel">
+          <h1 id="welcomeTitle">Your Account</h1>
+          <p class="subtitle">Manage your profile and orders.</p>
+
+          <div class="profile-header">
+            <div class="profile-avatar" id="profileAvatar">U</div>
+            <div class="profile-details">
+              <h3 id="profileName">Fragrance Connoisseur</h3>
+              <p id="profileEmail">user@example.com</p>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <a href="checkout.html" class="primary-btn" id="resumeCheckoutBtn" style="display: none;">Return to Checkout</a>
+            <a href="orders.html" class="secondary-profile-btn" style="border-color: var(--gold); color: var(--gold-light); font-weight: 700;">View All Orders</a>
+            <a href="all_products.html" class="secondary-profile-btn">Browse All Products</a>
+            <button type="button" class="signout-btn" id="accountSignOutBtn">Sign Out</button>
+          </div>
+
+          <div class="orders-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <h4 style="margin: 0;">Recent Orders</h4>
+              <a href="orders.html" style="font-size: 0.78rem; color: var(--gold); text-decoration: underline;">View Full History →</a>
+            </div>
+            <div id="recentOrdersList" class="orders-list"></div>
+          </div>
+        </div>
+
+        <!-- UNAUTHENTICATED LOGIN / SIGNUP VIEW -->
+        <div id="authContainer">
+          <h1 id="pageTitle">Welcome back</h1>
+          <p class="subtitle" id="pageSubtitle">Sign in to continue your fragrance journey.</p>
+
+          <button type="button" class="google-btn" id="googleLoginBtn">
+            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            <span>Continue with Google</span>
+          </button>
+
+          <div class="divider"><span>OR WITH EMAIL</span></div>
+
+          <div class="toggle-row" aria-label="Account modes">
+            <button class="mode-btn active" type="button" data-mode="login">Login</button>
+            <button class="mode-btn" type="button" data-mode="register">Create Account</button>
+          </div>
+
+          <div class="panel active" data-panel="login">
+            <form id="loginForm" novalidate>
+              <div class="field">
+                <label for="loginEmail">Email</label>
+                <input id="loginEmail" type="email" placeholder="you@example.com" required />
+              </div>
+
+              <div class="field">
+                <label for="loginPassword">Password</label>
+                <input id="loginPassword" type="password" placeholder="Enter your password" required />
+              </div>
+
+              <div class="row">
+                <label class="remember"><input type="checkbox" checked /> Remember me</label>
+                <a class="forgot" href="index.html">Forgot password?</a>
+              </div>
+
+              <div id="loginError" class="error" aria-live="polite"></div>
+              <button class="primary-btn" type="submit" id="loginSubmitBtn">Sign In</button>
+            </form>
+          </div>
+
+          <div class="panel" data-panel="register">
+            <form id="registerForm" novalidate>
+              <div class="field">
+                <label for="registerName">Full Name</label>
+                <input id="registerName" type="text" placeholder="Your full name" required />
+              </div>
+
+              <div class="field">
+                <label for="registerEmail">Email</label>
+                <input id="registerEmail" type="email" placeholder="you@example.com" required />
+              </div>
+
+              <div class="field">
+                <label for="registerPassword">Password</label>
+                <input id="registerPassword" type="password" placeholder="Create a password (min 6 chars)" required />
+              </div>
+
+              <div id="registerError" class="error" aria-live="polite"></div>
+              <div id="registerSuccess" class="success" aria-live="polite"></div>
+              <button class="primary-btn" type="submit" id="registerSubmitBtn">Create Account</button>
+            </form>
+          </div>
+
+          <div class="meta">
+            Already have an account? <a href="account.html" class="switch-link" data-target="login">Login here</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import {
+        loginWithGoogle,
+        loginWithEmail,
+        registerWithEmail,
+        logoutUser,
+        onAuthChange,
+        getCurrentUser,
+      } from "./js/auth.js";
+
+      const ORDERS_KEY = "scentifymeeOrders";
+      const urlParams = new URLSearchParams(window.location.search);
+      const redirectTarget = urlParams.get("redirect");
+
+      function showMessage(type, message, targetId) {
+        const node = document.getElementById(targetId);
+        if (!node) return;
+        node.textContent = message;
+        node.classList.toggle("error", type === "error");
+        node.classList.toggle("success", type === "success");
+      }
+
+      function switchMode(mode) {
+        const buttons = document.querySelectorAll(".mode-btn");
+        const panels = document.querySelectorAll('[data-panel]');
+        const title = document.getElementById("pageTitle");
+        const subtitle = document.getElementById("pageSubtitle");
+
+        buttons.forEach((button) => {
+          button.classList.toggle("active", button.dataset.mode === mode);
+        });
+
+        panels.forEach((panel) => {
+          panel.classList.toggle("active", panel.dataset.panel === mode);
+        });
+
+        if (mode === "login") {
+          title.textContent = "Welcome back";
+          subtitle.textContent = "Sign in to continue your fragrance journey.";
+        } else {
+          title.textContent = "Create account";
+          subtitle.textContent = "Join Scentifymee and discover your signature scent.";
+        }
+      }
+
+      function handlePostAuthSuccess() {
+        if (redirectTarget) {
+          window.location.href = redirectTarget;
+          return;
+        }
+      }
+
+      function renderOrders() {
+        const list = document.getElementById("recentOrdersList");
+        if (!list) return;
+        try {
+          const raw = localStorage.getItem(ORDERS_KEY);
+          const orders = raw ? JSON.parse(raw) : [];
+          if (!orders.length) {
+            list.innerHTML = '<div class="no-orders-msg">No recent orders placed yet.</div>';
+            return;
+          }
+          list.innerHTML = orders
+            .slice(0, 5)
+            .map((order) => {
+              const date = new Date(order.createdAt).toLocaleDateString("en-IN", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              });
+              return `
+                <div class="order-item-card">
+                  <div>
+                    <strong>${order.orderId}</strong> • ${order.items?.length || 0} item(s)
+                    <div style="color: var(--muted); font-size: 0.76rem;">${date}</div>
+                  </div>
+                  <div>₹${Number(order.total || 0).toLocaleString("en-IN")}</div>
+                </div>
+              `;
+            })
+            .join("");
+        } catch (e) {
+          list.innerHTML = '<div class="no-orders-msg">Could not load orders.</div>';
+        }
+      }
+
+      function updateUI(user) {
+        const authContainer = document.getElementById("authContainer");
+        const profilePanel = document.getElementById("profilePanel");
+        const resumeBtn = document.getElementById("resumeCheckoutBtn");
+
+        if (user) {
+          authContainer.style.display = "none";
+          profilePanel.classList.add("active");
+
+          const avatar = document.getElementById("profileAvatar");
+          if (avatar) {
+            if (user.photoURL) {
+              avatar.innerHTML = `<img src="${user.photoURL}" alt="${user.displayName || "User"}" />`;
+            } else {
+              avatar.textContent = (user.displayName || user.email || "U")[0].toUpperCase();
+            }
+          }
+
+          const nameEl = document.getElementById("profileName");
+          if (nameEl) nameEl.textContent = user.displayName || "Valued Customer";
+
+          const emailEl = document.getElementById("profileEmail");
+          if (emailEl) emailEl.textContent = user.email || "";
+
+          if (resumeBtn) {
+            if (redirectTarget === "checkout.html" || localStorage.getItem("scentifymeeCart")) {
+              resumeBtn.style.display = "inline-flex";
+            } else {
+              resumeBtn.style.display = "none";
+            }
+          }
+
+          renderOrders();
+        } else {
+          authContainer.style.display = "block";
+          profilePanel.classList.remove("active");
+        }
+      }
+
+      // Google Sign In
+      document.getElementById("googleLoginBtn")?.addEventListener("click", async () => {
+        showMessage("error", "", "loginError");
+        const res = await loginWithGoogle();
+        if (res.success) {
+          handlePostAuthSuccess();
+        } else {
+          showMessage("error", res.error || "Google Sign-In failed.", "loginError");
+        }
+      });
+
+      // Email Sign In
+      document.getElementById("loginForm")?.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const email = document.getElementById("loginEmail").value.trim();
+        const password = document.getElementById("loginPassword").value.trim();
+
+        if (!email || !password) {
+          showMessage("error", "Please enter both email and password.", "loginError");
+          return;
+        }
+
+        const btn = document.getElementById("loginSubmitBtn");
+        btn.disabled = true;
+        btn.textContent = "Signing In...";
+
+        const res = await loginWithEmail(email, password);
+        btn.disabled = false;
+        btn.textContent = "Sign In";
+
+        if (res.success) {
+          handlePostAuthSuccess();
+        } else {
+          showMessage("error", res.error || "Invalid email or password.", "loginError");
+        }
+      });
+
+      // Email Registration
+      document.getElementById("registerForm")?.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const name = document.getElementById("registerName").value.trim();
+        const email = document.getElementById("registerEmail").value.trim();
+        const password = document.getElementById("registerPassword").value.trim();
+
+        if (!name || !email || !password) {
+          showMessage("error", "Please fill in all fields.", "registerError");
+          return;
+        }
+
+        const btn = document.getElementById("registerSubmitBtn");
+        btn.disabled = true;
+        btn.textContent = "Creating Account...";
+
+        const res = await registerWithEmail(email, password, name);
+        btn.disabled = false;
+        btn.textContent = "Create Account";
+
+        if (res.success) {
+          showMessage("success", "Account created successfully.", "registerSuccess");
+          handlePostAuthSuccess();
+        } else {
+          showMessage("error", res.error || "Could not create account.", "registerError");
+        }
+      });
+
+      // Sign Out
+      document.getElementById("accountSignOutBtn")?.addEventListener("click", async () => {
+        await logoutUser();
+      });
+
+      // Tabs
+      document.querySelectorAll(".mode-btn").forEach((button) => {
+        button.addEventListener("click", () => switchMode(button.dataset.mode));
+      });
+
+      document.querySelectorAll(".switch-link").forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          switchMode(link.dataset.target || "login");
+        });
+      });
+
+      onAuthChange(updateUI);
+    </script>
+  </body>
+</html>

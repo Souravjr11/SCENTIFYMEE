@@ -1,0 +1,723 @@
+/* ============================================================
+   SCENTIFYMEE — Customer Order History Stylesheet (orders.css)
+   Luxury dark theme matching Scentifymee aesthetics
+   ============================================================ */
+
+:root {
+  --orders-bg: #0d0b0a;
+  --orders-panel: #141210;
+  --orders-panel-card: #181512;
+  --orders-panel-inner: rgba(255, 255, 255, 0.02);
+  --orders-text: #f4efe9;
+  --orders-muted: #9e968b;
+  --orders-gold: #c9a45c;
+  --orders-gold-light: #e4c987;
+  --orders-gold-dark: #8a6f3b;
+  --orders-border: rgba(201, 164, 92, 0.22);
+  --orders-border-subtle: rgba(255, 255, 255, 0.07);
+  --orders-success: #74ce95;
+  --orders-success-bg: rgba(116, 206, 149, 0.1);
+  --orders-badge-bg: rgba(201, 164, 92, 0.12);
+}
+
+.orders-page {
+  min-height: calc(100vh - 70px);
+  padding: 48px 0 80px;
+  background: radial-gradient(circle at 50% 0%, rgba(201, 164, 92, 0.07), transparent 45%), var(--orders-bg);
+  color: var(--orders-text);
+  font-family: "Inter", sans-serif;
+}
+
+/* ============================================
+   PAGE HEADER
+   ============================================ */
+.orders-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 36px;
+}
+
+.orders-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--orders-gold);
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--orders-border);
+  padding-bottom: 4px;
+}
+
+.orders-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  margin: 0 0 14px;
+  color: var(--orders-text);
+  line-height: 1.05;
+}
+
+.orders-subtitle {
+  color: var(--orders-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ============================================
+   USER STATUS BAR
+   ============================================ */
+.user-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: var(--orders-panel);
+  border: 1px solid var(--orders-border);
+  padding: 16px 24px;
+  margin-bottom: 36px;
+  border-radius: 4px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.user-status-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.user-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--orders-gold), #6d5427);
+  color: #110e0c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.15rem;
+  overflow: hidden;
+  border: 1px solid var(--orders-gold-light);
+  flex-shrink: 0;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--orders-text);
+}
+
+.user-email {
+  color: var(--orders-muted);
+  font-size: 0.82rem;
+}
+
+.user-status-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.order-count-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: var(--orders-badge-bg);
+  color: var(--orders-gold-light);
+  border: 1px solid var(--orders-border);
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.account-link-btn {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--orders-gold);
+  border: 1px solid var(--orders-border);
+  padding: 6px 14px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.account-link-btn:hover {
+  background: rgba(201, 164, 92, 0.12);
+  color: var(--orders-gold-light);
+}
+
+/* ============================================
+   NOTIFICATION TOAST
+   ============================================ */
+.orders-toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 1000;
+  background: #191613;
+  border: 1px solid var(--orders-gold);
+  color: var(--orders-text);
+  padding: 14px 22px;
+  border-radius: 4px;
+  font-size: 0.88rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  transform: translateY(100px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.orders-toast.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ============================================
+   ORDERS CONTAINER & CARDS
+   ============================================ */
+.orders-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.orders-loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--orders-muted);
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 2px solid rgba(201, 164, 92, 0.2);
+  border-top-color: var(--orders-gold);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* INDIVIDUAL ORDER CARD */
+.order-card {
+  background: var(--orders-panel-card);
+  border: 1px solid var(--orders-border);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.25s ease;
+}
+
+.order-card:hover {
+  border-color: rgba(201, 164, 92, 0.45);
+}
+
+/* ORDER CARD HEADER */
+.order-card-header {
+  background: #141210;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--orders-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.order-id-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.order-id-label {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--orders-gold-light);
+}
+
+.order-date-text {
+  font-size: 0.82rem;
+  color: var(--orders-muted);
+}
+
+.order-badges-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: var(--orders-success-bg);
+  color: var(--orders-success);
+  border: 1px solid rgba(116, 206, 149, 0.3);
+  border-radius: 20px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.payment-ref-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: rgba(201, 164, 92, 0.08);
+  color: var(--orders-gold);
+  border: 1px solid var(--orders-border);
+  border-radius: 20px;
+  font-size: 0.74rem;
+  font-family: monospace;
+}
+
+.payment-ref-badge strong {
+  font-weight: 600;
+}
+
+/* ORDER ITEMS LIST */
+.order-items-wrap {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--orders-border-subtle);
+}
+
+.order-items-heading {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--orders-muted);
+  margin-bottom: 14px;
+}
+
+.order-item-row {
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 18px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.order-item-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.order-item-thumb {
+  width: 60px;
+  height: 60px;
+  background: #201c18;
+  border: 1px solid var(--orders-border-subtle);
+  border-radius: 2px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.order-item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.order-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.order-item-brand {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--orders-gold);
+  font-weight: 600;
+}
+
+.order-item-name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--orders-text);
+}
+
+.order-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--orders-muted);
+}
+
+.size-pill {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 7px;
+  border-radius: 2px;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--orders-text);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.order-item-total {
+  text-align: right;
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: var(--orders-text);
+}
+
+/* ORDER CARD FOOTER & BREAKDOWN */
+.order-card-footer {
+  padding: 20px 24px;
+  background: rgba(13, 11, 10, 0.5);
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+.order-shipping-summary h5,
+.order-pricing-summary h5 {
+  margin: 0 0 10px;
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--orders-gold);
+}
+
+.order-shipping-summary p {
+  margin: 0 0 4px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--orders-muted);
+}
+
+.order-shipping-summary .customer-name {
+  font-weight: 600;
+  color: var(--orders-text);
+}
+
+.pricing-table {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.86rem;
+}
+
+.pricing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--orders-muted);
+}
+
+.pricing-row.discount-row {
+  color: #83dca6;
+}
+
+.pricing-row.total-row {
+  border-top: 1px solid var(--orders-border);
+  margin-top: 6px;
+  padding-top: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--orders-text);
+}
+
+.pricing-row.total-row strong {
+  color: var(--orders-gold-light);
+  font-size: 1.15rem;
+}
+
+/* ORDER ACTIONS ROW */
+.order-actions-bar {
+  padding: 16px 24px;
+  background: #141210;
+  border-top: 1px solid var(--orders-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.reorder-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 24px;
+  background: linear-gradient(180deg, #d8b76f 0%, #c49f57 100%);
+  color: #120e0b;
+  border: 1px solid var(--orders-gold);
+  border-radius: 2px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reorder-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.06);
+  box-shadow: 0 4px 16px rgba(201, 164, 92, 0.35);
+}
+
+.reorder-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.support-link {
+  font-size: 0.82rem;
+  color: var(--orders-muted);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+}
+
+.support-link:hover {
+  color: var(--orders-gold-light);
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+.empty-orders-card {
+  text-align: center;
+  padding: 64px 24px;
+  background: var(--orders-panel);
+  border: 1px solid var(--orders-border);
+  border-radius: 4px;
+  max-width: 600px;
+  margin: 20px auto;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.empty-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: rgba(201, 164, 92, 0.1);
+  border: 1px solid var(--orders-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--orders-gold);
+}
+
+.empty-icon svg {
+  width: 34px;
+  height: 34px;
+}
+
+.empty-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.2rem;
+  margin: 0 0 10px;
+  color: var(--orders-text);
+}
+
+.empty-desc {
+  color: var(--orders-muted);
+  font-size: 0.94rem;
+  max-width: 440px;
+  margin: 0 auto 26px;
+  line-height: 1.6;
+}
+
+.empty-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 32px;
+  background: var(--orders-gold);
+  color: #120e0b;
+  font-weight: 800;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: 1px solid var(--orders-gold-light);
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.empty-cta-btn:hover {
+  background: var(--orders-gold-light);
+  transform: translateY(-1px);
+}
+
+/* ============================================
+   AUTH PROMPT CARD (When signed out)
+   ============================================ */
+.auth-prompt-card {
+  text-align: center;
+  padding: 56px 28px;
+  background: var(--orders-panel);
+  border: 1px solid var(--orders-border);
+  border-radius: 4px;
+  max-width: 540px;
+  margin: 20px auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.auth-prompt-card h2 {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 2.4rem;
+  margin: 0 0 10px;
+}
+
+.auth-prompt-card p {
+  color: var(--orders-muted);
+  font-size: 0.92rem;
+  margin: 0 0 28px;
+  line-height: 1.5;
+}
+
+.google-auth-btn {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #ffffff;
+  color: #1a1a1a;
+  border: none;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.2s ease;
+  margin-bottom: 14px;
+  border-radius: 2px;
+}
+
+.google-auth-btn:hover {
+  filter: brightness(0.96);
+  transform: translateY(-1px);
+}
+
+.google-auth-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.email-auth-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--orders-border);
+  color: var(--orders-text);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.email-auth-link:hover {
+  border-color: var(--orders-gold);
+  color: var(--orders-gold);
+  background: rgba(201, 164, 92, 0.05);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+  .orders-page {
+    padding: 30px 0 60px;
+  }
+
+  .user-status-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .user-status-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .order-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+  }
+
+  .order-card-footer {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 16px;
+  }
+
+  .order-items-wrap {
+    padding: 16px;
+  }
+
+  .order-item-row {
+    grid-template-columns: 50px 1fr;
+    gap: 12px;
+  }
+
+  .order-item-total {
+    grid-column: 2 / -1;
+    text-align: left;
+    margin-top: -2px;
+  }
+
+  .order-actions-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+
+  .reorder-btn {
+    width: 100%;
+  }
+
+  .support-link {
+    text-align: center;
+  }
+}
+

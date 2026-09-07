@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover the story behind Scentifymee and our mission to make genuine luxury fragrance decants accessible to fragrance lovers.">
+  <title>About Us | Scentifymee</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/navbar.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="Scentifymee home">SCENTIFY<span class="logo-accent">MEE</span></a>
+
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <a href="index.html" data-route="home">Home</a>
+        <a href="bestsellers.html" data-route="bestsellers">Best Sellers</a>
+        <a href="new_additions.html" data-route="newAdditions">New Additions</a>
+        <a href="all_products.html" data-route="shopAll">Shop All</a>
+        <a href="partials.html" data-route="partials">Partials</a>
+        <a href="about.html" data-route="about" class="active">About</a>
+      </nav>
+
+      <div class="header-icons">
+        <button class="icon-btn" id="searchToggle" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <a href="cart.html" class="icon-btn" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+            <path d="M3 5h2l2.4 10.1a1 1 0 0 0 1 .9h8.8a1 1 0 0 0 1-.8L20 7H7"></path>
+            <circle cx="10" cy="18" r="1.3"></circle>
+            <circle cx="17" cy="18" r="1.3"></circle>
+          </svg>
+          <span data-cart-count hidden>0</span>
+        </a>
+        <a href="account.html" class="icon-btn" aria-label="Account">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="8" r="3.2"></circle>
+            <path d="M4.5 20c1.4-3.6 4.4-5.5 7.5-5.5s6.1 1.9 7.5 5.5"></path>
+          </svg>
+        </a>
+        <button class="icon-btn hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Search overlay -->
+    <div class="search-panel" id="searchPanel" aria-live="polite">
+      <div class="container search-panel-inner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="search-panel-icon"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" placeholder="Search by name, brand or notes…" autocomplete="off">
+        <button id="searchClose" aria-label="Close search">&times;</button>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </header>
+
+  <!-- ============ MOBILE NAV PANEL ============ -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay">
+    <div class="mobile-nav-panel">
+      <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">&times;</button>
+      <a href="index.html">Home</a>
+      <a href="bestsellers.html">Best Sellers</a>
+      <a href="new_additions.html">New Additions</a>
+      <a href="all_products.html">Shop All</a>
+      <a href="partials.html">Partials</a>
+      <a href="about.html" class="active">About</a>
+      <a href="orders.html">My Orders</a>
+      <a href="account.html">My Account</a>
+      <a href="cart.html">Cart</a>
+    </div>
+  </div>
+
+  <main class="about-page">
+    <section class="about-hero">
+      <div class="container about-hero-inner">
+        <p class="about-eyebrow">Our Story</p>
+        <h1 class="about-title">Born from passion. Built for <span class="gold-italic">fragrance lovers.</span></h1>
+        <p class="about-hero-copy">Scentifymee exists because blind-buying a ₹15,000 bottle of perfume felt like gambling — and the decant market at the time was either untrustworthy or unaffordable.</p>
+      </div>
+    </section>
+
+    <section class="story-section container">
+      <div class="story-block">
+        <p class="section-label">How It Started</p>
+        <div class="story-content">
+          <p>I have always been captivated by fragrance — the way a single spritz can teleport you to a place, a memory, a feeling. What started as casual curiosity slowly became an obsession with niche houses, vintage finds, and everything in between.</p>
+
+          <p>But collecting fragrances is expensive. I made the mistake of blind-buying bottles I ended up never wearing. That is when I discovered the world of decants — smaller samples that let you experience a fragrance properly before investing in a full bottle.</p>
+
+          <p>The problem? The decant market in India was messy. Half the sellers could not prove authenticity, and the ones that could charged almost as much as the bottle itself. I kept thinking: <em>there has to be a better way.</em></p>
+
+          <p>So I started Scentifymee — filling decants from bottles I personally own, pricing them fairly, and being completely transparent about what is inside each vial. What began as a passion project is now a community of fragrance lovers who believe you should smell extraordinary without emptying your wallet.</p>
+
+          <p class="story-signature">— Founder, Scentifymee</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="principles-section container">
+      <div class="section-center">
+        <p class="section-label">What We Stand For</p>
+        <h2 class="section-heading">Our Principles</h2>
+      </div>
+
+      <div class="principles-grid">
+        <article class="principle-card">
+          <div class="principle-bar"></div>
+          <h3>Always Genuine</h3>
+          <p>Every decant is filled from bottles we own. No grey-market, no watered-down juice — just the real thing.</p>
+        </article>
+
+        <article class="principle-card">
+          <div class="principle-bar"></div>
+          <h3>Try Before You Commit</h3>
+          <p>A full bottle is a big investment. Our 3ml–10ml sizes let you live with a fragrance before going all-in.</p>
+        </article>
+
+        <article class="principle-card">
+          <div class="principle-bar"></div>
+          <h3>Honest Pricing</h3>
+          <p>We price decants to be accessible, not to squeeze margin. Luxury should not be a lottery.</p>
+        </article>
+
+        <article class="principle-card">
+          <div class="principle-bar"></div>
+          <h3>Community First</h3>
+          <p>We started as enthusiasts and we still are. Every recommendation comes from genuine love for fragrance.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="size-section">
+      <div class="container size-inner">
+        <div class="section-center">
+          <p class="section-label">Flexible Options</p>
+          <h2 class="section-heading">Choose Your Size</h2>
+          <p class="size-copy">Every fragrance in our catalogue is available in multiple sizes so you can trial, travel, or treat yourself — whatever suits the moment.</p>
+        </div>
+
+        <div class="size-grid">
+          <article class="size-card">
+            <h3>3 ml</h3>
+            <p>A quick first impression — ideal for sampling a new scent.</p>
+          </article>
+
+          <article class="size-card">
+            <h3>5 ml</h3>
+            <p>A quick impression — great for first encounters.</p>
+          </article>
+
+          <article class="size-card">
+            <h3>8 ml</h3>
+            <p>Enough to wear for a week and truly decide.</p>
+          </article>
+
+          <article class="size-card">
+            <h3>10 ml</h3>
+            <p>Your travel companion before committing to a full bottle.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section container">
+      <h2>Ready to explore?</h2>
+      <p>Browse our full collection of genuine decants and find your next signature scent — without the blind-buy risk.</p>
+      <a href="all_products.html" class="btn btn-gold about-cta">Shop Decants</a>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="about">
+    <div class="container footer-top">
+      <div class="footer-col">
+        <div class="logo footer-logo">SCENTIFY<span class="logo-accent">MEE</span></div>
+        <p class="footer-desc">Experience luxury fragrances through premium decants. Discover your signature scent without the commitment.</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <a href="all_products.html">Shop All</a>
+        <a href="orders.html">My Orders</a>
+        <a href="about.html">About Us</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+
+      <div class="footer-col">
+        <h3>Contact</h3>
+        <p class="footer-contact">Email: scentifymee.in@gmail.com</p>
+        <p class="footer-contact">Phone: +91-9795545614</p>
+        <p class="footer-contact">Support hours: Mon-Sat, 10 AM - 7 PM IST</p>
+        <div class="social-icons">
+          <a href="https://instagram.com/scentifymee" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+          </a>
+          <a href="https://twitter.com/scentifymee" target="_blank" rel="noopener" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 5.9c-.7.3-1.5.5-2.3.6.8-.5 1.5-1.3 1.8-2.3-.8.5-1.7.8-2.6 1a4.1 4.1 0 0 0-7 3.7A11.6 11.6 0 0 1 3.4 4.6a4.1 4.1 0 0 0 1.3 5.5c-.6 0-1.3-.2-1.8-.5v.1c0 2 1.4 3.6 3.3 4a4.1 4.1 0 0 1-1.8.1c.5 1.6 2 2.8 3.8 2.8A8.3 8.3 0 0 1 2 18.4a11.6 11.6 0 0 0 6.3 1.9c7.5 0 11.7-6.3 11.7-11.7v-.5c.8-.6 1.5-1.3 2-2.1z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="container footer-bottom">
+      <p class="copyright">© 2026 Scentifymee. All rights reserved.</p>
+      <div class="footer-legal">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="shipping-policy.html">Shipping Policy</a>
+        <a href="refund-policy.html">Refund Policy</a>
+      </div>
+    </div>
+  </footer>
+
+  <button class="floating-btn" aria-label="Scroll to top" id="floatingBtn">
+    <svg viewBox="0 0 24 24" fill="#0d0b0a"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8L12 2z"/></svg>
+  </button>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Luxury fragrance decants and niche perfumes from Scentifymee." />
+    <title>Scentifymee | Product</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/product.css" />
+    <link rel="stylesheet" href="css/navbar.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="index.html" class="logo" aria-label="Scentifymee home">SCENTIFY<span class="logo-accent">MEE</span></a>
+
+        <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+          <a href="index.html" data-route="home">Home</a>
+          <a href="bestsellers.html" data-route="bestsellers">Best Sellers</a>
+          <a href="new_additions.html" data-route="newAdditions">New Additions</a>
+          <a href="all_products.html" data-route="shopAll">Shop All</a>
+          <a href="partials.html" data-route="partials">Partials</a>
+          <a href="about.html" data-route="about">About</a>
+        </nav>
+
+        <div class="header-icons">
+          <button class="icon-btn" id="searchToggle" aria-label="Search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+          <a href="cart.html" class="icon-btn" aria-label="Cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <path d="M3 5h2l2.4 10.1a1 1 0 0 0 1 .9h8.8a1 1 0 0 0 1-.8L20 7H7"></path>
+              <circle cx="10" cy="18" r="1.3"></circle>
+              <circle cx="17" cy="18" r="1.3"></circle>
+            </svg>
+            <span data-cart-count hidden>0</span>
+          </a>
+          <a href="account.html" class="icon-btn" aria-label="Account">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <circle cx="12" cy="8" r="3.2"></circle>
+              <path d="M4.5 20c1.4-3.6 4.4-5.5 7.5-5.5s6.1 1.9 7.5 5.5"></path>
+            </svg>
+          </a>
+          <button class="icon-btn hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search overlay -->
+      <div class="search-panel" id="searchPanel" aria-live="polite">
+        <div class="container search-panel-inner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="search-panel-icon"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="searchInput" placeholder="Search by name, brand or notes…" autocomplete="off">
+          <button id="searchClose" aria-label="Close search">&times;</button>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+    </header>
+
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+      <div class="mobile-nav-panel">
+        <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">&times;</button>
+        <a href="index.html">Home</a>
+        <a href="bestsellers.html">Best Sellers</a>
+        <a href="new_additions.html">New Additions</a>
+        <a href="all_products.html">Shop All</a>
+        <a href="partials.html">Partials</a>
+        <a href="about.html">About</a>
+        <a href="orders.html">My Orders</a>
+        <a href="account.html">My Account</a>
+        <a href="cart.html">Cart</a>
+      </div>
+    </div>
+
+    <main class="page-shell">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <span>›</span>
+          <a href="all_products.html">Shop</a>
+          <span>›</span>
+          <span id="breadcrumbName">Product</span>
+        </nav>
+
+        <div id="productContent"></div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-top">
+        <div class="footer-col">
+          <div class="logo footer-logo">SCENTIFY<span class="logo-accent">MEE</span></div>
+          <p class="footer-desc">Experience luxury fragrances through premium decants. Discover your signature scent without the commitment.</p>
+        </div>
+
+        <div class="footer-col">
+          <h3>Quick Links</h3>
+          <a href="all_products.html">Shop All</a>
+          <a href="orders.html">My Orders</a>
+          <a href="about.html">About Us</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+
+        <div class="footer-col">
+          <h3>Contact</h3>
+          <p class="footer-contact">Email: scentifymee.in@gmail.com</p>
+          <p class="footer-contact">Phone: +91-9795545614</p>
+          <p class="footer-contact">Support hours: Mon–Sat, 10 AM – 7 PM IST</p>
+          <div class="social-icons">
+            <a href="https://instagram.com/scentifymee" target="_blank" rel="noopener" aria-label="Instagram">◎</a>
+            <a href="https://twitter.com/scentifymee" target="_blank" rel="noopener" aria-label="Twitter">X</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="container footer-bottom">
+        <p class="copyright">© 2026 Scentifymee. All rights reserved.</p>
+        <div class="footer-legal">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="shipping-policy.html">Shipping Policy</a>
+          <a href="refund-policy.html">Refund Policy</a>
+        </div>
+      </div>
+    </footer>
+
+    <button class="floating-btn" aria-label="Scroll to top" id="floatingBtn">✦</button>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <div id="lightbox" class="lightbox" aria-hidden="true">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Close image preview">&times;</button>
+      <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous image">‹</button>
+      <img id="lightboxImage" src="" alt="" />
+      <button class="lightbox-nav next" id="lightboxNext" aria-label="Next image">›</button>
+    </div>
+
+    <script src="js/product.js"></script>
+  </body>
+</html>

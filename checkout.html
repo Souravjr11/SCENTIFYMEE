@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout | Scentifymee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/checkout.css" />
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  </head>
+  <body>
+    <div class="checkout-page">
+      <div class="checkout-shell">
+        <a class="back-link" href="cart.html" aria-label="Back to cart">
+          <span aria-hidden="true">‹</span>
+          Back to Cart
+        </a>
+
+        <h1 class="page-title">Checkout</h1>
+        <p class="page-subtitle">
+          Already have an account?
+          <a href="account.html?redirect=checkout.html">Sign in</a>
+          to auto-fill your details.
+        </p>
+
+        <div class="checkout-layout">
+          <section class="panel left-panel" aria-labelledby="delivery-details-title">
+            <!-- Firebase Auth Banner -->
+            <div class="checkout-auth-banner not-authenticated" id="checkoutAuthBanner">
+              <div class="auth-banner-header">
+                <div class="auth-banner-title">
+                  <svg class="auth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  <span>Account Required for Checkout</span>
+                </div>
+                <span class="auth-pill">Required</span>
+              </div>
+              <p class="auth-banner-desc">Sign in with Google or Email to secure your order and track delivery.</p>
+              <div class="auth-banner-actions">
+                <button type="button" class="btn-google-auth" id="bannerGoogleBtn">
+                  <svg class="google-svg" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                  <span>Continue with Google</span>
+                </button>
+                <button type="button" class="btn-email-auth" id="bannerEmailBtn">Sign In with Email</button>
+              </div>
+            </div>
+
+            <div class="checkout-auth-banner authenticated hidden" id="checkoutAuthUserCard">
+              <div class="user-badge-left">
+                <div class="user-avatar" id="authAvatar">U</div>
+                <div class="user-info">
+                  <div class="user-signed-in-label">✓ SIGNED IN & SECURED</div>
+                  <div class="user-name-email">
+                    <strong id="authUserName">User</strong>
+                    <span id="authUserEmail">user@example.com</span>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn-auth-signout" id="authSignOutBtn">Sign out</button>
+            </div>
+
+            <h2 id="delivery-details-title">Delivery Details</h2>
+
+            <form id="checkoutForm" novalidate>
+              <div class="field-group">
+                <label for="fullName">Full Name <span>*</span></label>
+                <input id="fullName" name="fullName" type="text" />
+                <small class="field-error" data-error-for="fullName"></small>
+              </div>
+
+              <div class="field-group">
+                <label for="email">Email <span>*</span></label>
+                <input id="email" name="email" type="email" />
+                <small class="field-error" data-error-for="email"></small>
+              </div>
+
+              <div class="field-group">
+                <label for="phone">Phone <span>*</span></label>
+                <input id="phone" name="phone" type="tel" inputmode="numeric" />
+                <small class="field-error" data-error-for="phone"></small>
+              </div>
+
+              <div class="field-group">
+                <label for="address1">Address Line 1 <span>*</span></label>
+                <input id="address1" name="address1" type="text" />
+                <small class="field-error" data-error-for="address1"></small>
+              </div>
+
+              <div class="field-group">
+                <label for="address2">Address Line 2 (Optional)</label>
+                <input id="address2" name="address2" type="text" />
+              </div>
+
+              <div class="row-3">
+                <div class="field-group">
+                  <label for="city">City <span>*</span></label>
+                  <input id="city" name="city" type="text" />
+                  <small class="field-error" data-error-for="city"></small>
+                </div>
+
+                <div class="field-group">
+                  <label for="state">State <span>*</span></label>
+                  <select id="state" name="state">
+                    <option value="">Select state</option>
+                    <option>Andhra Pradesh</option>
+                    <option>Arunachal Pradesh</option>
+                    <option>Assam</option>
+                    <option>Bihar</option>
+                    <option>Chhattisgarh</option>
+                    <option>Goa</option>
+                    <option>Gujarat</option>
+                    <option>Haryana</option>
+                    <option>Himachal Pradesh</option>
+                    <option>Jharkhand</option>
+                    <option>Karnataka</option>
+                    <option>Kerala</option>
+                    <option>Madhya Pradesh</option>
+                    <option>Maharashtra</option>
+                    <option>Manipur</option>
+                    <option>Meghalaya</option>
+                    <option>Mizoram</option>
+                    <option>Nagaland</option>
+                    <option>Odisha</option>
+                    <option>Punjab</option>
+                    <option>Rajasthan</option>
+                    <option>Sikkim</option>
+                    <option>Tamil Nadu</option>
+                    <option>Telangana</option>
+                    <option>Tripura</option>
+                    <option>Uttar Pradesh</option>
+                    <option>Uttarakhand</option>
+                    <option>West Bengal</option>
+                    <option>Delhi</option>
+                    <option>Jammu and Kashmir</option>
+                    <option>Ladakh</option>
+                    <option>Puducherry</option>
+                  </select>
+                  <small class="field-error" data-error-for="state"></small>
+                </div>
+
+                <div class="field-group">
+                  <label for="pincode">Pincode <span>*</span></label>
+                  <input id="pincode" name="pincode" type="text" inputmode="numeric" />
+                  <small class="field-error" data-error-for="pincode"></small>
+                </div>
+              </div>
+            </form>
+          </section>
+
+          <aside class="panel summary-panel" aria-labelledby="order-summary-title">
+            <h2 id="order-summary-title">Order Summary</h2>
+
+            <div id="summaryList" class="summary-list"></div>
+
+            <div class="summary-metrics">
+              <div class="summary-row subtotal-row">
+                <span id="subtotalLabel">Subtotal (0 items)</span>
+                <strong id="subtotalValue">₹0</strong>
+              </div>
+
+              <div class="summary-row shipping-row">
+                <span>Shipping</span>
+                <strong id="shippingValue">₹0</strong>
+              </div>
+
+              <div class="summary-row coupon-row hidden" id="discountRow">
+                <span>Discount</span>
+                <strong id="discountValue">-₹0</strong>
+              </div>
+            </div>
+
+            <div class="coupon-box">
+              <input id="couponInput" type="text" placeholder="Have a code?" aria-label="Coupon code" />
+              <button id="couponApply" type="button">APPLY</button>
+            </div>
+            <div id="couponMessage" class="coupon-message" aria-live="polite">Only valid codes work.</div>
+
+            <div class="total-row">
+              <span>Total</span>
+              <strong id="totalValue">₹0</strong>
+            </div>
+
+            <div class="payment-block">
+              <h3>PAYMENT METHOD</h3>
+
+              <label class="payment-option selected" for="onlinePayment">
+                <div class="payment-main">
+                  <input id="onlinePayment" type="radio" name="paymentMethod" value="online" checked />
+                  <div>
+                    <div class="payment-title">Razorpay Online Payment</div>
+                    <div class="payment-subtitle">UPI, Cards, Net Banking, Wallets</div>
+                  </div>
+                </div>
+                <div class="payment-badges" aria-label="Payment methods">
+                  <span>VISA</span>
+                  <span>UPI</span>
+                </div>
+              </label>
+
+              <label class="payment-option" for="upiPayment">
+                <div class="payment-main">
+                  <input id="upiPayment" type="radio" name="paymentMethod" value="upi" />
+                  <div>
+                    <div class="payment-title">Direct UPI / QR Code</div>
+                    <div class="payment-subtitle">Google Pay, PhonePe, Paytm, BHIM</div>
+                  </div>
+                </div>
+                <div class="payment-badges" aria-label="Payment methods">
+                  <span>GPay</span>
+                  <span>UPI</span>
+                </div>
+              </label>
+
+              <label class="payment-option disabled" for="codPayment">
+                <div class="payment-main">
+                  <input id="codPayment" type="radio" name="paymentMethod" value="cod" disabled />
+                  <div>
+                    <div class="payment-title">Cash on Delivery</div>
+                    <div class="payment-subtitle">Currently unavailable</div>
+                  </div>
+                </div>
+              </label>
+            </div>
+
+            <button id="placeOrderBtn" class="place-order-btn" type="submit" form="checkoutForm">PLACE ORDER</button>
+            <div class="secure-row"><span class="lock">🔒</span> Secured by Razorpay & UPI</div>
+          </aside>
+        </div>
+      </div>
+    </div>
+    <!-- Firebase Auth Modal for Order Completion -->
+    <div class="auth-modal-backdrop" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+      <div class="auth-modal-card">
+        <button type="button" class="auth-modal-close" id="authModalClose" aria-label="Close modal">×</button>
+        <h2 class="auth-modal-title" id="authModalTitle">Sign In to Complete Order</h2>
+        <p class="auth-modal-sub" id="authModalSub">An account is required to place your order and track delivery updates.</p>
+
+        <button type="button" class="btn-google-auth" id="modalGoogleBtn" style="width: 100%; justify-content: center; margin-bottom: 8px;">
+          <svg class="google-svg" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+          <span>Continue with Google</span>
+        </button>
+
+        <div class="auth-divider"><span>OR WITH EMAIL</span></div>
+
+        <div class="auth-modal-tabs">
+          <button type="button" class="auth-tab-btn active" data-tab="login">Sign In</button>
+          <button type="button" class="auth-tab-btn" data-tab="register">New Account</button>
+        </div>
+
+        <form id="modalAuthForm" novalidate>
+          <div class="auth-field" id="modalNameField" style="display: none;">
+            <label for="modalName">Full Name</label>
+            <input type="text" id="modalName" placeholder="Your full name" />
+          </div>
+
+          <div class="auth-field">
+            <label for="modalEmail">Email Address</label>
+            <input type="email" id="modalEmail" placeholder="you@example.com" required />
+          </div>
+
+          <div class="auth-field">
+            <label for="modalPassword">Password</label>
+            <input type="password" id="modalPassword" placeholder="Enter your password" required />
+          </div>
+
+          <div id="modalAuthError" class="auth-error-msg" aria-live="polite"></div>
+
+          <button type="submit" class="auth-submit-btn" id="modalSubmitBtn">Sign In & Complete Order</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Direct UPI QR Modal -->
+    <div class="auth-modal-backdrop" id="upiModal" role="dialog" aria-modal="true" aria-labelledby="upiModalTitle">
+      <div class="auth-modal-card upi-modal-card">
+        <button type="button" class="auth-modal-close" id="upiModalClose" aria-label="Close modal">×</button>
+        <h2 class="auth-modal-title" id="upiModalTitle">Pay via UPI</h2>
+        <p class="auth-modal-sub">Scan the QR code with any UPI app (GPay, PhonePe, Paytm, BHIM) or send payment directly to the UPI ID below.</p>
+
+        <div class="upi-qr-wrapper">
+          <img id="upiQrImage" src="" alt="UPI Payment QR Code" class="upi-qr-img" />
+          <div class="upi-amount-badge">Total to pay: <strong id="upiAmountText">₹0</strong></div>
+        </div>
+
+        <div class="upi-id-box">
+          <div class="upi-id-label">OFFICIAL UPI ID / VPA</div>
+          <div class="upi-id-row">
+            <code id="upiIdText">souravdhara087-2@okicici</code>
+            <button type="button" class="upi-copy-btn" id="upiCopyBtn">Copy</button>
+          </div>
+        </div>
+
+        <a id="upiPayDirectBtn" href="#" class="upi-direct-btn">
+          <span>Open in UPI App (Mobile)</span>
+        </a>
+
+        <div class="upi-utr-section">
+          <label for="upiUtrInput">UPI Transaction Reference / UTR (Optional)</label>
+          <input type="text" id="upiUtrInput" placeholder="e.g. 423891024819" maxlength="16" />
+        </div>
+
+        <button type="button" class="auth-submit-btn upi-confirm-btn" id="upiConfirmBtn">I Have Completed Payment</button>
+      </div>
+    </div>
+
+    <script type="module" src="js/checkout.js"></script>
+  </body>
+</html>
