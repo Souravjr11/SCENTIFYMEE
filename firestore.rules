@@ -1,0 +1,88 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: orders
+    // Document ID: SCM-<timestamp> or custom string ID
+    // Fields:
+    //   - orderId: string (required, size: 5-50 chars) - unique order identifier
+    //   - userId: string (required for registered customers, size: 1-128 chars) - customer Firebase Auth UID
+    //   - userEmail: string (optional, valid email format) - customer account email
+    //   - authProvider: string (optional, size: 1-50 chars) - auth method (google.com, password)
+    //   - customer: map (required)
+    //       - fullName: string (size: 1-100 chars)
+    //       - email: string (valid email format)
+    //       - phone: string (size: 7-20 chars)
+    //       - address1: string (size: 1-200 chars)
+    //       - address2: string (optional, size: 0-200 chars)
+    //       - city: string (size: 1-100 chars)
+    //       - state: string (size: 1-100 chars)
+    //       - pincode: string (size: 4-12 chars)
+    //   - items: list of maps (required, size: 1-50 items)
+    //       - productId: string
+    //       - name: string
+    //       - brand: string
+    //       - image: string
+    //       - size: string
+    //       - quantity: number (>= 1)
+    //       - price: number (>= 0)
+    //   - subtotal: number (>= 0)
+    //   - discount: number (>= 0)
+    //   - shipping: number (>= 0)
+    //   - total: number (> 0)
+    //   - paymentMethod: string (in ['online', 'upi'])
+    //   - paymentId: string (size: 1-100 chars)
+    //   - paymentStatus: string (in ['paid', 'pending', 'failed'])
+    //   - status: string (in ['confirmed', 'processing', 'shipped', 'delivered', 'cancelled'])
+    //   - createdAt: string or timestamp (required, immutable)
+    //   - cloudSyncedAt: string or timestamp (optional)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidEmail(email) {
+      return email is string &&
+        email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidOrder(data) {
+      return data.orderId is string &&
+             data.orderId.size() >= 5 && data.orderId.size() <= 50 &&
+             data.userId is string && data.userId == request.auth.uid &&
+             data.customer is map &&
+             data.customer.fullName is string && data.customer.fullName.size() > 0 && data.customer.fullName.size() <= 100 &&
+             data.items is list && data.items.size() >= 1 && data.items.size() <= 50 &&
+             data.total is number && data.total > 0 &&
+             data.paymentStatus in ['paid', 'pending', 'failed'] &&
+             data.paymentMethod in ['online', 'upi'];
+    }
+
+    // Orders Collection Rules
+    match /orders/{orderId} {
+      // Allow customers to read only their own orders
+      allow read: if isAuthenticated() && resource.data.userId == request.auth.uid;
+
+      // Allow authenticated customers to create orders attached to their own UID
+      allow create: if isAuthenticated() && isValidOrder(request.resource.data);
+
+      // Deny client updates and deletes to protect financial and delivery audit records
+      allow update, delete: if false;
+    }
+  }
+}
+

@@ -3,6 +3,11 @@ import {
   getCurrentUser,
   loginWithGoogle,
 } from "./auth.js";
+import {
+  fetchUserOrdersFromCloud,
+  syncLocalOrdersToCloud,
+  subscribeToUserOrders,
+} from "./firestore.js";
 
 const ORDERS_KEY = "scentifymeeOrders";
 const CART_KEY = "scentifymeeCart";
@@ -345,33 +350,29 @@ function handleReorder(orderId) {
   }
 }
 
+let activeUnsubscribe = null;
+
+function filterOrdersForUser(orders, user) {
+  if (!user) return orders;
+  const userEmail = (user.email || "").toLowerCase().trim();
+  const filtered = orders.filter((order) => {
+    if (order.userId && order.userId === user.uid) return true;
+    if (order.userEmail && order.userEmail.toLowerCase().trim() === userEmail) return true;
+    if (order.customer && order.customer.email && order.customer.email.toLowerCase().trim() === userEmail) return true;
+    return false;
+  });
+  return filtered.length > 0 ? filtered : orders;
+}
+
 // ============================================
 // MAIN CONTROLLER
 // ============================================
-function updateOrdersView(user) {
+async function updateOrdersView(user) {
   currentCustomer = user;
   allSavedOrders = loadOrdersFromStorage();
 
-  // Filter orders
-  let userOrders = [];
-  if (user) {
-    const userEmail = (user.email || "").toLowerCase();
-    userOrders = allSavedOrders.filter((order) => {
-      if (order.userId && order.userId === user.uid) return true;
-      if (order.userEmail && order.userEmail.toLowerCase() === userEmail) return true;
-      if (order.customer && order.customer.email && order.customer.email.toLowerCase() === userEmail) return true;
-      return false;
-    });
-
-    // If no specific user-tagged orders yet but device has recent orders, include them as fallback
-    if (userOrders.length === 0 && allSavedOrders.length > 0) {
-      userOrders = allSavedOrders;
-    }
-  } else {
-    // Guest or unauthenticated mode: show all locally stored orders if present
-    userOrders = allSavedOrders;
-  }
-
+  // First render immediately from local storage
+  let userOrders = filterOrdersForUser(allSavedOrders, user);
   renderUserBar(user, userOrders.length);
 
   if (!user && userOrders.length === 0) {
@@ -379,12 +380,65 @@ function updateOrdersView(user) {
     return;
   }
 
-  if (userOrders.length === 0) {
-    renderEmptyState(Boolean(user));
-    return;
+  if (userOrders.length > 0) {
+    renderOrdersList(userOrders);
+  } else if (user) {
+    renderEmptyState(true);
   }
 
-  renderOrdersList(userOrders);
+  // If user is authenticated, query Cloud Firestore for cross-device orders
+  if (user) {
+    try {
+      const cloudOrders = await fetchUserOrdersFromCloud(user.uid, user.email);
+      if (Array.isArray(cloudOrders) && cloudOrders.length > 0) {
+        // Merge cloud orders with local orders (cloud takes precedence, deduplicate by orderId)
+        const orderMap = new Map();
+        cloudOrders.forEach((co) => orderMap.set(co.orderId, { ...co, syncedToCloud: true }));
+        allSavedOrders.forEach((lo) => {
+          if (!orderMap.has(lo.orderId)) {
+            orderMap.set(lo.orderId, lo);
+          }
+        });
+
+        allSavedOrders = Array.from(orderMap.values());
+        allSavedOrders.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+        localStorage.setItem(ORDERS_KEY, JSON.stringify(allSavedOrders));
+
+        userOrders = filterOrdersForUser(allSavedOrders, user);
+        renderUserBar(user, userOrders.length);
+        if (userOrders.length > 0) {
+          renderOrdersList(userOrders);
+        }
+      }
+
+      // Sync any un-synced local orders to the cloud
+      syncLocalOrdersToCloud(user).then((res) => {
+        if (res && res.syncedCount > 0) {
+          console.info(`Synced ${res.syncedCount} local order(s) to Cloud Firestore.`);
+        }
+      });
+
+      // Attach real-time snapshot listener
+      if (activeUnsubscribe) activeUnsubscribe();
+      activeUnsubscribe = await subscribeToUserOrders(user.uid, (freshOrders) => {
+        if (freshOrders && freshOrders.length > 0) {
+          const freshMap = new Map();
+          freshOrders.forEach((fo) => freshMap.set(fo.orderId, { ...fo, syncedToCloud: true }));
+          allSavedOrders.forEach((lo) => {
+            if (!freshMap.has(lo.orderId)) freshMap.set(lo.orderId, lo);
+          });
+          allSavedOrders = Array.from(freshMap.values());
+          allSavedOrders.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+          localStorage.setItem(ORDERS_KEY, JSON.stringify(allSavedOrders));
+          const updated = filterOrdersForUser(allSavedOrders, user);
+          renderUserBar(user, updated.length);
+          renderOrdersList(updated);
+        }
+      });
+    } catch (e) {
+      console.warn("Cloud order sync warning:", e);
+    }
+  }
 }
 
 // ============================================
@@ -394,6 +448,8 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCartBadge();
   const initialUser = getCurrentUser();
   updateOrdersView(initialUser);
-  onAuthChange(updateOrdersView);
+  onAuthChange((newUser) => {
+    updateOrdersView(newUser);
+  });
 });
 

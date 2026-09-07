@@ -7,6 +7,7 @@ import {
   getCurrentUser,
 } from "./auth.js";
 import { processRazorpayPayment, getDirectUpiDetails } from "./payment.js";
+import { saveOrderToCloud } from "./firestore.js";
 
 const CART_KEY = "scentifymeeCart";
 const COUPON_KEY = "scentifymeeCoupon";
@@ -413,6 +414,17 @@ async function placeOrder() {
   orderData.paymentStatus = "paid";
 
   saveOrderToHistory(orderData);
+
+  // Persist order to Cloud Firestore (cross-device sync)
+  try {
+    const cloudRes = await saveOrderToCloud(orderData);
+    if (cloudRes.success) {
+      orderData.syncedToCloud = true;
+      saveOrderToHistory(orderData);
+    }
+  } catch (cloudErr) {
+    console.warn("Cloud Firestore save warning:", cloudErr);
+  }
 
   localStorage.removeItem(CART_KEY);
   localStorage.removeItem(COUPON_KEY);
