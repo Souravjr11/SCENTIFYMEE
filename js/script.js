@@ -81,11 +81,12 @@ function slugify(str){
 function buildProductCard(product){
   const card = document.createElement("div");
   card.className = "product-card";
+  const imageSrc = product.image ? (product.image.includes("?") ? product.image : `${product.image}?v=2`) : "";
 
   card.innerHTML = `
     <a href="product.html?id=${slugify(product.name)}" style="display:flex;flex-direction:column;height:100%;color:inherit;">
       <div class="product-image">
-        <img src="${product.image}" alt="${product.name}" draggable="false">
+        <img src="${imageSrc}" alt="${product.name}" draggable="false">
       </div>
       <div class="product-info">
         <div class="product-brand">${product.brand}</div>
@@ -603,8 +604,9 @@ function goToPage(page){
    PRODUCT IMAGE CAROUSEL (inside each card)
    ============================================================ */
 function getProductImageList(product){
-  if(Array.isArray(product.images) && product.images.length) return product.images;
-  if(product.image) return [product.image];
+  const bust = (url) => url ? (url.includes("?") ? url : `${url}?v=2`) : "";
+  if(Array.isArray(product.images) && product.images.length) return product.images.map(bust);
+  if(product.image) return [bust(product.image)];
   return [];
 }
 
@@ -887,7 +889,7 @@ function initSearch(){
       item.className = "search-result-item";
       item.href = routes.product(p.slug);
       item.innerHTML = `
-        <img src="${p.images[0]}" alt="${p.name}">
+        <img src="${p.images[0]}?v=2" alt="${p.name}">
         <div>
           <div class="sr-brand">${p.brand}</div>
           <div class="sr-name">${p.name}</div>

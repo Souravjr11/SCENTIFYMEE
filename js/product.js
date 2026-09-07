@@ -709,7 +709,8 @@ function getSelectedPrice() {
 
 function getCurrentProductImages() {
   if (!state.currentProduct) return [];
-  return Array.isArray(state.currentProduct.images) ? state.currentProduct.images : [];
+  const list = Array.isArray(state.currentProduct.images) ? state.currentProduct.images : [];
+  return list.map((url) => url ? (url.includes("?") ? url : `${url}?v=2`) : "");
 }
 
 function getRelatedProducts() {
@@ -939,7 +940,8 @@ function renderRelatedProducts() {
   return getRelatedProducts()
     .map((product) => {
       const productImages = Array.isArray(product.images) ? product.images : [];
-      const firstImage = productImages[0] || "images/best-01.jpg";
+      const rawImg = productImages[0] || "images/best-01.jpg";
+      const firstImage = rawImg.includes("?") ? rawImg : `${rawImg}?v=2`;
       const firstSize = Object.entries(product.sizes || {})[0] || ["3ml", 199];
       const firstPrice = formatPrice(firstSize[1]);
       return `
@@ -1268,7 +1270,7 @@ function initSearch() {
       item.className = "search-result-item";
       item.href = `product.html?id=${product.id}`;
       item.innerHTML = `
-        <img src="${product.images[0]}" alt="${product.name}">
+        <img src="${product.images[0]}?v=2" alt="${product.name}">
         <div>
           <div class="sr-brand">${product.brand}</div>
           <div class="sr-name">${product.name}</div>
